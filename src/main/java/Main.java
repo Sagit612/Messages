@@ -34,7 +34,7 @@ public class Main {
                 }else if(strings[i].equals("")){
                     throw new NullArgumentException("You haven't typed anything yet!!! Please retype");
                 }else {
-                    queue.offer(strings[i] + ".");
+                    queue.offer(strings[i]);
                     System.out.println("Message has been sent successfully!!!");
                 }
             }
@@ -50,7 +50,7 @@ public class Main {
     }
     public static void processMessages(){
         while (!stack.isEmpty()){
-            queue.offer(stack.pop());
+            queue.offer(stack.pop() + ".");
         }
         while (!queue.isEmpty()){
             String message = queue.poll();
