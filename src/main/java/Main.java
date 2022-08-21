@@ -1,55 +1,54 @@
 import implementations.*;
 import org.apache.commons.lang.NullArgumentException;
 
-import java.sql.SQLOutput;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class Main {
     static Stack<String> stack = new Stack<>();
     static Queue<String> queue = new Queue<>();
-    public static void main(String[] args) {
-        String choice = "";
-        while (!"0".equals(choice)){
-            Scanner sc = new Scanner(System.in);
-
-            System.out.println("1. Send Messages");
-            System.out.println("2. Show All Messages");
-            System.out.println("0. Exit");
-
-            System.out.println("====Please input choice====");
-            choice = sc.nextLine();
-            switch (choice){
-                case "1":
-                    transfer();
-                    break;
-                case "2":
-                    process();
-                    break;
-                case "0":
-                    System.exit(0);
-            }
-        }
+    static String[] strings;
+    public static void main(String[] args) throws IOException{
+        enterMessage();
+        long startTime = System.currentTimeMillis();
+        transferMessages();
+        processMessages();
+        printMessages();
+        long stopTime = System.currentTimeMillis();
+        long elaspedTime = stopTime - startTime;
+        System.out.println("The system took " + elaspedTime + "ms to run...");
     }
-    public static void transfer(){
+
+    public static void enterMessage() throws IOException {
         System.out.println("Enter your message");
-        String messages;
-        Scanner sc = new Scanner(System.in);
-        do {
-            messages = sc.nextLine();
-            if (!messages.equals("finish")){
-                queue.offer(messages);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        strings = br.readLine().split("\\.");
+    }
+    public static void transferMessages(){
+        try{
+            for (int i = 0; i < strings.length; i++) {
+                if (strings[i].length() > 250){
+                    throw new IndexOutOfBoundsException("The message characters must be less than 250 character!!! Please retype");
+                }else if(strings[i].equals("")){
+                    throw new NullArgumentException("You haven't typed anything yet!!! Please retype");
+                }else {
+                    queue.offer(strings[i] + ".");
+                    System.out.println("Message has been sent successfully!!!");
+                }
             }
-        }while (!messages.equals("finish"));
-        while (!queue.isEmpty()){
-            String message = queue.poll();
-            stack.push(message);
+            while (!queue.isEmpty()){
+                String message = queue.poll();
+                stack.push(message);
+            }
+        }catch (IndexOutOfBoundsException ioobe){
+            System.out.println(ioobe.getMessage());
+        }catch (NullArgumentException nae){
+            System.out.println(nae.getMessage());
         }
     }
-    public static void process(){
-        System.out.println("Processing...");
+    public static void processMessages(){
         while (!stack.isEmpty()){
             queue.offer(stack.pop());
         }
@@ -57,8 +56,10 @@ public class Main {
             String message = queue.poll();
             stack.push(message);
         }
+    }
+    public static void printMessages(){
         while (!stack.isEmpty()){
-            System.out.println("Messages: " + stack.pop());
+            System.out.println("New messages: " + stack.pop());
         }
     }
 }

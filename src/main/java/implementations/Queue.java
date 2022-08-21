@@ -1,8 +1,6 @@
 package implementations;
 
 import interfaces.AbstractQueue;
-import org.w3c.dom.Node;
-
 import java.util.Iterator;
 
 public class Queue<E> implements AbstractQueue<E> {

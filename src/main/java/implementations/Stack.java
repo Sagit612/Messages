@@ -1,7 +1,5 @@
 package implementations;
-
 import interfaces.AbstractStack;
-
 import java.util.Iterator;
 
 public class Stack<E> implements AbstractStack<E> {
@@ -31,11 +29,6 @@ public class Stack<E> implements AbstractStack<E> {
 
     @Override
     public E pop() {
-//        ensureNonEmpty();
-//        E element = this.top.element;
-//        top = top.previous;
-//        this.size--;
-//        return element;
         ensureNonEmpty();
         E element = this.top.element;
         Node<E> temp = this.top.previous;
@@ -63,7 +56,14 @@ public class Stack<E> implements AbstractStack<E> {
 
     @Override
     public E peek() {
-        return null;
+        if(size == 0 ) {
+            throw new IllegalStateException("the list is empty");
+        }
+        Stack.Node<E> current = this.top;
+        while (current.previous != null) {
+            current = current.previous;
+        }
+        return current.element;
     }
 
     @Override
