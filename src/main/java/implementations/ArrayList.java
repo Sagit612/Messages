@@ -97,22 +97,27 @@ public class ArrayList<E> implements List<E> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public int indexOf(E element) {
-        return 0;
+        for (int i=0;i<size;i++){
+            if (elements[i].equals(element)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     @Override
     public boolean contains(E element) {
-        return false;
+        return indexOf(element) !=-1;
     }
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return size == 0;
     }
 
     @Override
