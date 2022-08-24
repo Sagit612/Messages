@@ -24,7 +24,7 @@ public class Main {
             String line;
             while((line = br.readLine())!=null){
                 try {
-                        long startTime1 = System.currentTimeMillis();
+
                         if (!line.equals("finish")){
                             strings = line.split("\\.");
                             for (int i = 0; i < strings.length; i++) {
@@ -33,12 +33,14 @@ public class Main {
                                 }else if(strings[i].equals("")){
                                     throw new NullArgumentException("You haven't typed anything yet!!! Please retype");
                                 }else {
+                                    long startTime1 = System.currentTimeMillis();
                                     queue.offer(strings[i] + ".");
                                     System.out.println("Message has been sent successfully!!!");
+                                    long endTime1 = System.currentTimeMillis();
+                                    System.out.println("Time" + (endTime1 - startTime1));
                                 }
                         }
-                        long endTime1 = System.currentTimeMillis();
-                        System.out.println("Time" + (endTime1 - startTime1));
+
                     }
                 }catch (IndexOutOfBoundsException iae) {
                     System.out.println(iae.getMessage());
